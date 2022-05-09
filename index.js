@@ -1,6 +1,6 @@
 const path = require("path")
 const {ipcMain} = require("electron")
-var socket;
+const socket = new WebSocket(`ws://127.0.0.1:26369`);
 var socketResponse;
 var playing;
 
@@ -12,7 +12,6 @@ module.exports = class TaskprogMain {
 
     // Called when the backend is ready
     onReady(win) {
-        socket = new WebSocket(`ws://127.0.0.1:26369`);
         socket.onopen = (e) => {
             console.log(e);
             console.log('[Plugin][Taskprog] Connected to Websocket.');
