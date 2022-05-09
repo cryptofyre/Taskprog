@@ -19,7 +19,7 @@ module.exports = class TaskprogMain {
     }
 
     onPlaybackStateDidChange(attributes) {
-        playing = attributes.currentPlaybackProgress
+        playing = attributes.status
         if (attributes.status) {
             while (playing) {
                 socket.onmessage = (e) => {
