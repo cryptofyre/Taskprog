@@ -10,8 +10,8 @@ module.exports = class TaskprogMain {
 
     // Called when the backend is ready
     onReady(win) {
-        console.log("[Plugin][Taskprog] Taskprog Backend Ready.")
         ipcMain.on('wsapi-updatePlaybackState', (attributes) => {
+            console.log(attributes)
             if (attributes.status) {
                 try {
                     this.env.utils.getWindow().setProgressBar(attributes.currentPlaybackProgress)
@@ -22,6 +22,8 @@ module.exports = class TaskprogMain {
                 this.env.utils.getWindow().setProgressBar(-1)
             }
         })
+
+        console.log("[Plugin][Taskprog] Taskprog Backend Ready.")
     }
 
     // Called when the renderer is ready (app.init())
