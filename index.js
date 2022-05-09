@@ -1,6 +1,6 @@
 const path = require("path")
 const {ipcMain} = require("electron")
-const socket = new WebSocket(`ws://127.0.0.1:26369`);
+var socket = new WebSocket(`ws://127.0.0.1:26369`);
 var socketResponse;
 var playing;
 
