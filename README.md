@@ -1,2 +1,2 @@
-# Taskprog
-Cider plugin that enables the progress bar on the taskbar icon. pretty jank.
+# Taskbar Song Progress (Taskprog)
+Allows users to be able to see their song progress from the taskbar!
