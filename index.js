@@ -5,28 +5,23 @@ module.exports = class TaskprogMain {
     constructor(env) {
         // Define plugin enviornment within the class
         this.env = env
+        this.playing = null;
     }
 
     // Called when the backend is ready
     onReady(win) {
         console.log("[Plugin][Taskprog] Taskprog Backend Ready.")
-    }
-
-    onPlaybackStateDidChange(attributes) {
-        window.playing = attributes.status
-        if (attributes.status) {
-            while (playing) {
+        ipcMain.on('wsapi-updatePlaybackState', (attributes) => {
+            if (attributes.status) {
                 try {
-                    ipcMain.on('wsapi-updatePlaybackState', (attributes) => {
-                        this.env.utils.getWindow().setProgressBar(attributes.currentPlaybackProgress)
-                    })
+                    this.env.utils.getWindow().setProgressBar(attributes.currentPlaybackProgress)
                 } catch(e) {
                     console.log("[Plugin][Taskprog][Error]",e)
                 }
-            }  
-        } else {
-            this.env.utils.getWindow().setProgressBar(-1)
-        }
+            } else {
+                this.env.utils.getWindow().setProgressBar(-1)
+            }
+        })
     }
 
     // Called when the renderer is ready (app.init())
