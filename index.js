@@ -1,6 +1,5 @@
 const path = require("path")
 const {ipcMain} = require("electron")
-const {w3cwebsocket} = require('websocket');
 
 module.exports = class TaskprogMain {
     constructor(env) {
@@ -10,27 +9,17 @@ module.exports = class TaskprogMain {
 
     // Called when the backend is ready
     onReady(win) {
-        window.socket = new w3cwebsocket(`ws://127.0.0.1:26369`);
-        window.socketResponse = null;
-        window.playing = null;
-
-        socket.onopen = (e) => {
-            console.log(e);
-            console.log('[Plugin][Taskprog] Connected to Websocket.');
-        }
         console.log("[Plugin][Taskprog] Taskprog Backend Ready.")
     }
 
     onPlaybackStateDidChange(attributes) {
-        playing = attributes.status
+        window.playing = attributes.status
         if (attributes.status) {
             while (playing) {
-                socket.onmessage = (e) => {
-                    console.log(e.data)
-                    socketResponse = JSON.parse(e.data);
-                }
-                try { 
-                    this.env.utils.getWindow().setProgressBar(socketResponse.currentPlaybackProgress)
+                try {
+                    ipcMain.on('wsapi-updatePlaybackState', (attributes) => {
+                        this.env.utils.getWindow().setProgressBar(attributes.currentPlaybackProgress)
+                    })
                 } catch(e) {
                     console.log("[Plugin][Taskprog][Error]",e)
                 }
