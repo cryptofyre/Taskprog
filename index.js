@@ -1,24 +1,20 @@
 const path = require("path")
 const {ipcMain} = require("electron")
-const WebSocketW3C = require('websocket').w3cwebsocket;
+const {w3cwebsocket} = require('websocket');
 
 module.exports = class TaskprogMain {
     constructor(env) {
         // Define plugin enviornment within the class
         this.env = env
-        try {
-            this.socket = new WebSocketW3C(`ws://127.0.0.1:26369`);
-        } catch(e) {
-            console.log("[fuck]",e)
-        }
-        this.socketResponse = null;
-        this.playing = null;
     }
 
     // Called when the backend is ready
     onReady(win) {
+        window.socket = new w3cwebsocket(`ws://127.0.0.1:26369`);
+        window.socketResponse = null;
+        window.playing = null;
 
-        this.socket.onopen = (e) => {
+        socket.onopen = (e) => {
             console.log(e);
             console.log('[Plugin][Taskprog] Connected to Websocket.');
         }
@@ -26,12 +22,12 @@ module.exports = class TaskprogMain {
     }
 
     onPlaybackStateDidChange(attributes) {
-        this.playing = attributes.status
+        playing = attributes.status
         if (attributes.status) {
-            while (this.playing) {
-                this.socket.onmessage = (e) => {
+            while (playing) {
+                socket.onmessage = (e) => {
                     console.log(e.data)
-                    this.socketResponse = JSON.parse(e.data);
+                    socketResponse = JSON.parse(e.data);
                 }
                 try { 
                     this.env.utils.getWindow().setProgressBar(socketResponse.currentPlaybackProgress)
