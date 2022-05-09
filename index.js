@@ -1,10 +1,10 @@
 const path = require("path")
 const {ipcMain} = require("electron")
+const WebSocketW3C = require('websocket').w3cwebsocket;
 
 module.exports = class TaskprogMain {
     constructor(env) {
         // Define plugin enviornment within the class
-        const WebSocketW3C = require('websocket').w3cwebsocket;
         this.env = env
         this.socket = new WebSocketW3C(`ws://127.0.0.1:26369`);
         this.socketResponse = null;
