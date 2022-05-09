@@ -11,7 +11,6 @@ module.exports = class TaskprogMain {
     // Called when the backend is ready
     onReady(win) {
         ipcMain.on('wsapi-updatePlaybackState', (event, attributes) => {
-            console.log(attributes)
             if (attributes.status) {
                 try {
                     this.env.utils.getWindow().setProgressBar(attributes.currentPlaybackProgress)
