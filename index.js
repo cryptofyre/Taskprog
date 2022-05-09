@@ -1,8 +1,8 @@
 const path = require("path")
 const {ipcMain} = require("electron")
-socket;
-socketResponse = null;
-playing = attributes.status
+var socket;
+var socketResponse;
+var playing;
 
 module.exports = class TaskprogMain {
     constructor(env) {
