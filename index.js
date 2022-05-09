@@ -6,7 +6,11 @@ module.exports = class TaskprogMain {
     constructor(env) {
         // Define plugin enviornment within the class
         this.env = env
-        this.socket = new WebSocketW3C(`ws://127.0.0.1:26369`);
+        try {
+            this.socket = new WebSocketW3C(`ws://127.0.0.1:26369`);
+        } catch(e) {
+            console.log("[fuck]",e)
+        }
         this.socketResponse = null;
         this.playing = null;
     }
